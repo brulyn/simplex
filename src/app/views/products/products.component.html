@@ -1,0 +1,43 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Products
+        </div>
+        <div class="card-body table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-condensed">
+            <thead class="thead-dark">
+              <tr>
+                <th>Name</th>
+                <th>Category_id</th>
+                <th>Subcategory_id</th>
+                <th>Instock</th>
+                <th>Outstock</th>
+                <th>Threshold</th>
+                <th>Selling_Cost</th>
+                <th>Purchase_Cost</th>
+                <th>Exempted</th>
+                <th>Shop_Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of products">
+                <td>{{ p.name }}</td>
+                <td>{{ p.categories[0].name }}</td>
+                <td>{{ p.subcategories[0].name }}</td>
+                <td>{{ p.instock }}</td>
+                <td>{{ p.outstock }}</td>
+                <td>{{ p.threshold }}</td>
+                <td>{{ p.selling_cost.$numberDecimal }}</td>
+                <td>{{ p.purchasing_cost.$numberDecimal }}</td>
+                <td>{{ p.exempted }}</td>
+                <td>{{ p.shops[0].name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Subcategories
+        </div>
+        <div class="card-body table-responsive">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-condensed">
+            <thead class="thead-dark">
+              <tr>
+                <th>Name</th>
+                <th>Category_Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sub of subcategories">
+                <td>{{ sub.name }}</td>
+                <td>{{ sub.category[0].name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

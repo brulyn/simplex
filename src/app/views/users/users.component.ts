@@ -1,50 +1,48 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subject, Observable, Subscription } from 'rxjs';
-import { CategoryModel } from './categories.model';
+import { UserModel } from './users.model';
 import { MainServiceService } from '../../main-service.service';
 
 import 'rxjs/add/operator/map';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss'],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
   providers: [MainServiceService]
 })
-export class CategoriesComponent implements OnInit, OnDestroy {
+export class UsersComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<CategoryModel> = new Subject();
-  categories: CategoryModel[] = [];
-  shops = [];
+  dtTrigger: Subject<UserModel> = new Subject();
+  users: UserModel[] = [];
   in_adding = false;
   in_updating = false;
   servObsd = new Subscription();
-  category = {
+  user = {
     _id: '',
     name: '',
+    address: '',
+    telephone: '',
     shop_id: ''
   };
   name = '';
+  address = '';
+  telephone = '';
+  manager = '';
   shop_id = '';
   constructor(public http: Http, public service: MainServiceService) { }
 
   ngOnInit() {
-    this.categories = [];
+    this.users = [];
     this.dtOptions = {
       pagingType: 'full_numbers'
     };
-    this.servObsd = this.service.getCategories()
+    this.servObsd = this.service.getUsers()
       .map(this.extractData)
       .subscribe(st => {
         this.dtTrigger.next();
-        this.categories = st;
-      });
-
-    this.service.getShops()
-      .map(this.extractData)
-      .subscribe(shops => {
-        this.shops = shops;
+        this.users = st;
       });
 
   }
@@ -62,54 +60,66 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.dtTrigger = new Subject();
     this.ngOnInit();
     this.name = '';
+    this.address = '';
+    this.telephone = '';
     this.shop_id = '';
+    this.manager = '';
   }
 
   public submit() {
-    const category = {
+    const user = {
       name: this.name,
+      address: this.address,
+      telephone: this.telephone,
+      manager: this.manager,
       shop_id: this.shop_id
     };
-    this.service.createCategory(
-      category
+    this.service.createUser(
+      user
     ).subscribe(st => {
       this.adding();
     });
   }
 
   public delete(id) {
-    this.service.deleteCategory(id)
+    this.service.deleteUser(id)
       .subscribe(st => {
         this.dtTrigger = new Subject();
-        this.service.getCategories()
+        this.service.getUsers()
           .map(this.extractData)
           .subscribe(strs => {
             this.dtTrigger.next();
-            this.categories = strs;
+            this.users = strs;
             this.refresh();
             // Calling the DT trigger to manually render the table
           });
       });
   }
 
-  public updating(category) {
-    this.name = category.name;
-    this.shop_id = category.shop_id;
+  public updating(user) {
+    this.name = user.name;
+    this.address = user.address;
+    this.telephone = user.telephone;
+    this.shop_id = user.shop_id;
+    this.manager = user.manager;
 
-    this.category = category;
+    this.user = user;
     this.in_updating = !this.in_updating;
     // this.dtTrigger = new Subject();
     // this.ngOnInit();
   }
 
   public submit_update() {
-    const id = this.category._id;
+    const id = this.user._id;
     const values = {
       name: this.name,
+      address: this.address,
+      telephone: this.telephone,
+      manager: this.manager,
       shop_id: this.shop_id
     };
 
-    this.service.updateCategory(id, values)
+    this.service.updateUser(id, values)
       .subscribe(st => {
         this.in_updating = !this.in_updating;
         this.dtTrigger = new Subject();

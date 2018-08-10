@@ -4,4 +4,5 @@ export class CategoryModel {
     telephone: String = '';
     manager: String = '';
     shop_id: String = '';
+    shop_name: String = '';
 }

@@ -18,6 +18,7 @@ export class StoresComponent implements OnInit, OnDestroy {
   stores: StoreModel[] = [];
   in_adding = false;
   in_updating = false;
+  shops = [];
   servObsd = new Subscription();
   store = {
     _id: '',
@@ -43,6 +44,12 @@ export class StoresComponent implements OnInit, OnDestroy {
       .subscribe(st => {
         this.dtTrigger.next();
         this.stores = st;
+      });
+
+    this.service.getShops()
+      .map(this.extractData)
+      .subscribe(st => {
+        this.shops = st;
       });
 
   }

@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-9">
-              <i class="fa fa-align-justify"></i> Manage your stores
+              <i class="fa fa-align-justify"></i> Manage your Sales
             </div>
             <div class="col-3 text-right">
 
@@ -26,29 +26,30 @@
           <table *ngIf="!in_adding && !in_updating" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
             <thead class="thead-dark">
               <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Telephone</th>
-                <th>Manager</th>
-                <th>Store Name</th>
-                <th>Action</th>
+                <th>Recipient</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+                <th>Date</th>
+                <th>Store</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let store of stores">
-                <td>{{ store.name }}</td>
-                <td>{{ store.address }}</td>
-                <td>{{ store.telephone }}</td>
-                <td>{{ store.manager }}</td>
-                <td>{{ store.shop[0].name }}</td>
+              <tr *ngFor="let sale of sales">
+                <td>{{ sale.recipient }}</td>
+                <td>{{ sale.product.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.total }}</td>
+                <td>{{ sale.sale_date }}</td>
+                <td>{{ sale.store.name }}</td>
                 <td>
                   <div class="row">
                     <div class="col-3">
-                      <button class="btn btn-sm btn-warning" (click)="updating(store)">
+                      <button class="btn btn-sm btn-warning" (click)="updating(sale)">
                         <i class="cui-note"></i> Edit</button>
                     </div>
                     <div class="col-3">
-                      <button class="btn btn-sm btn-danger" (click)="delete(store._id)">
+                      <button class="btn btn-sm btn-danger" (click)="delete(sale._id)">
                         <i class="icon-trash"></i> Delete</button>
                     </div>
                     <div class="col-6"></div>
@@ -92,7 +93,8 @@
                 <label for="shop" class="col col-form-label">Shop</label>
                 <div class="col">
                   <select name="shop_id" [(ngModel)]="shop_id" id="shop" class="form-control">
-                    <option *ngFor="let shop of shops" value={{shop._id}}>{{shop.name}}</option>
+                    <option value="5b6698e6467c7b437c2fc2d1">Kigali Shop</option>
+                    <option value="5b69423ccd50644e28a99f36">Shop2</option>
                   </select>
                 </div>
               </div>
@@ -135,7 +137,8 @@
                 <label for="shop" class="col col-form-label">Shop</label>
                 <div class="col">
                   <select name="shop_id" [(ngModel)]="shop_id" id="shop" class="form-control">
-                    <option *ngFor="let shop of shops" value={{shop._id}}>{{shop.name}}</option>
+                    <option value="5b6698e6467c7b437c2fc2d1">Kigali Shop</option>
+                    <option value="5b69423ccd50644e28a99f36">Shop2</option>
                   </select>
                 </div>
               </div>

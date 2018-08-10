@@ -1,41 +1,160 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Products
+          <div class="row">
+            <div class="col-9">
+              <i class="fa fa-align-justify"></i> Manage your products
+            </div>
+            <div class="col-3 text-right">
+              
+              <button *ngIf="!in_adding" class="btn btn-pill btn-sm btn-ghost-info" (click)="refresh()">
+                <i class="icon-refresh"></i>
+              </button>
+              <button *ngIf="!in_adding" class="btn btn-pill btn-sm btn-ghost-primary" (click)="adding()">
+                <i class="fa fa-plus"></i>
+              </button>
+              <button *ngIf="in_adding" class="btn btn-pill btn-sm btn-ghost-primary" (click)="adding()">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+          </div>
+
         </div>
         <div class="card-body table-responsive">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-sm table-condensed">
+          <table *ngIf="!in_adding && !in_updating" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
             <thead class="thead-dark">
               <tr>
                 <th>Name</th>
-                <th>Category_id</th>
-                <th>Subcategory_id</th>
-                <th>Instock</th>
-                <th>Outstock</th>
-                <th>Threshold</th>
-                <th>Selling_Cost</th>
-                <th>Purchase_Cost</th>
-                <th>Exempted</th>
-                <th>Shop_Name</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>Manager</th>
+                <th>Product Name</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let p of products">
-                <td>{{ p.name }}</td>
-                <td>{{ p.categories[0].name }}</td>
-                <td>{{ p.subcategories[0].name }}</td>
-                <td>{{ p.instock }}</td>
-                <td>{{ p.outstock }}</td>
-                <td>{{ p.threshold }}</td>
-                <td>{{ p.selling_cost.$numberDecimal }}</td>
-                <td>{{ p.purchasing_cost.$numberDecimal }}</td>
-                <td>{{ p.exempted }}</td>
-                <td>{{ p.shops[0].name }}</td>
+              <tr *ngFor="let product of products">
+                <td>{{ product.name }}</td>
+                <td>{{ product.address }}</td>
+                <td>{{ product.telephone }}</td>
+                <td>{{ product.manager }}</td>
+                <td>{{ product.shop[0].name }}</td>
+                <td>
+                  <div class="row">
+                    <div class="col-3">
+                      <button class="btn btn-sm btn-warning" (click)="updating(product)">
+                        <i class="cui-note"></i> Edit</button>
+                    </div>
+                    <div class="col-3">
+                      <button class="btn btn-sm btn-danger" (click)="delete(product._id)">
+                        <i class="icon-trash"></i> Delete</button>
+                    </div>
+                    <div class="col-6"></div>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
+          <form *ngIf="in_adding" action="">
+            <div class="form-group row">
+              <div class="form-group">
+                <label for="name" class="col col-form-label">Name</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="name" class="form-control" name="name" id="name">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="telephone" class="col col-form-label">Telephone</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="telephone" name="telephone" class="form-control" id="telephone" placeholder="078*****">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="manager" class="col col-form-label">Manager</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="manager" class="form-control" name="manager" id="manager" placeholder="Manager @ ..">
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group row">
+              <div class="form-group">
+                <label for="address" class="col col-form-label">Address</label>
+                <div class="col">
+                  <textarea name="address" [(ngModel)]="address" id="address" cols="23" rows="3" class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="shop" class="col col-form-label">Shop</label>
+                <div class="col">
+                  <select name="shop_id" [(ngModel)]="shop_id" id="shop" class="form-control">
+                    <option value="5b6698e6467c7b437c2fc2d1">Kigali Shop</option>
+                    <option value="5b69423ccd50644e28a99f36">Shop2</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+          </form>
+
+          <form *ngIf="in_updating" action="">
+            <div class="form-group row">
+              <div class="form-group">
+                <label for="name" class="col col-form-label">Name</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="name" class="form-control" name="name" id="name">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="telephone" class="col col-form-label">Telephone</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="telephone" name="telephone" class="form-control" id="telephone" placeholder="078*****">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="manager" class="col col-form-label">Manager</label>
+                <div class="col">
+                  <input type="text" [(ngModel)]="manager" class="form-control" name="manager" id="manager" placeholder="Manager @ ..">
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group row">
+              <div class="form-group">
+                <label for="address" class="col col-form-label">Address</label>
+                <div class="col">
+                  <textarea name="address" [(ngModel)]="address" id="address" cols="23" rows="3" class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="shop" class="col col-form-label">Shop</label>
+                <div class="col">
+                  <select name="shop_id" [(ngModel)]="shop_id" id="shop" class="form-control">
+                    <option value="5b6698e6467c7b437c2fc2d1">Kigali Shop</option>
+                    <option value="5b69423ccd50644e28a99f36">Shop2</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row col-6">
+              <div class="col-3">
+                <button type="button" class="btn btn-warning" (click)="submit_update()">
+                  <i class="cui-note"></i> Edit</button>
+              </div>
+              <div class="col-3">
+                <button type="button" class="btn btn-default" (click)="cancel_update()">
+                  <i class="icon-refresh"></i> Cancel</button>
+              </div>
+            </div>
+
+
+          </form>
         </div>
       </div>
     </div>

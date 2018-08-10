@@ -1,4 +1,4 @@
-export class SubcategoryModel {
+export class CustomerModel {
     name: String = '';
     address: String = '';
     telephone: String = '';

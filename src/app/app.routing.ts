@@ -97,6 +97,26 @@ export const routes: Routes = [
       {
         path: 'products',
         loadChildren: './views/products/products.module#ProductsModule'
+      },
+      {
+        path: 'sales',
+        loadChildren: './views/sales/sales.module#SalesModule'
+      },
+      {
+        path: 'expenses',
+        loadChildren: './views/expenses/expenses.module#ExpensesModule'
+      },
+      {
+        path: 'users',
+        loadChildren: './views/users/users.module#UsersModule'
+      },
+      {
+        path: 'customers',
+        loadChildren: './views/customers/customers.module#CustomersModule'
+      },
+      {
+        path: 'suppliers',
+        loadChildren: './views/suppliers/suppliers.module#SuppliersModule'
       }
     ]
   }
